@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+$color-1: hsl(158, 67%, 39%);
+$success: $color-1;
+$border-radius: 40px;
+$font-family-sans-serif: "Heebo", sans-serif;
+$alert-border-radius: 0;
+$enable-responsive-font-sizes: true;
+
+@import "~bootstrap/scss/bootstrap.scss";
+
+:root {
+  --color-1: 158, 67%, 39%;
+  --color-2: 146, 96%, 18%;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
