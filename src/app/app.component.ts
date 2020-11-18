@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   calc = (values) => {
     const { amount, from, to, cryptoSrc } = values;
     const amountInUSD = amount / from;
-    const result = amountInUSD / to;
+    const result = amountInUSD * to;
     this.result = result;
     this.cryptoSrc = cryptoSrc;
   };

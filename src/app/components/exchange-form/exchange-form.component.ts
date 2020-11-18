@@ -108,10 +108,10 @@ interface formValues {
           >
             <option selected value="">Choose Crypto...</option>
             <option
-              *ngFor="let crypto of cryptoData"
-              [value]="crypto.price_usd"
+              *ngFor="let crypto of cryptoData | keyvalue"
+              [value]="crypto.value"
             >
-              {{ crypto.id }}
+              {{ crypto.key }}
             </option>
           </select>
           <div
@@ -146,7 +146,7 @@ export class ExchangeFormComponent implements OnInit {
   @Output() sendValues: EventEmitter<formValues> = new EventEmitter();
 
   currencyData: object = null;
-  cryptoData: Array<any> = null;
+  cryptoData: object = null;
 
   submitted: boolean = false;
   loading: boolean = false;
@@ -154,14 +154,18 @@ export class ExchangeFormComponent implements OnInit {
   cryptoId: string = null;
 
   exchange: FormGroup = new FormGroup({
-    amount: new FormControl(null, [Validators.required, Validators.min(1)]),
+    amount: new FormControl(null, [Validators.required, Validators.min(0.1)]),
     from: new FormControl('', Validators.required),
     to: new FormControl('', Validators.required),
   });
 
   constructor(private api: ApiService) {
-    this.api.fetchCurrency().subscribe((data) => (this.currencyData = data));
-    this.api.fetchCrypto().subscribe((data) => (this.cryptoData = data));
+    this.api
+      .fetchCurrency()
+      .subscribe(({ rates }: any) => (this.currencyData = rates));
+    this.api
+      .fetchCrypto()
+      .subscribe(({ rates }: any) => (this.cryptoData = rates));
   }
 
   getCryptoById(cryptoId: string) {
@@ -183,6 +187,6 @@ export class ExchangeFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.exchange.valueChanges.subscribe((data) => console.log(data));
+    // this.exchange.valueChanges.subscribe((data) => console.log(data));
   }
 }
